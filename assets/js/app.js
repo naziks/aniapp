@@ -69,6 +69,7 @@ router
 .on('/anime/:id', function (params) {
 	is_search = false;
 	$("#search_text").val('id:'+params.id);
+	$("#search_text_sm").val('id:'+params.id);
 	$(".search-sm .search-button-sm").fadeIn();
 	$('body').removeAttr('style');
 	document.title = "Loading... - AnimeVost (by Naziks)";
