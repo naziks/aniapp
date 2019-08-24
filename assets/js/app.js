@@ -182,6 +182,13 @@ $(document).ready(function() {
 
 const do_search = (text = "") => {
 	text = String(text).trim();
+
+	if(text.split(":")[0] == "id" && text.split(":")[0].length > 0 && Number(text.split(":")[1]) > 0){
+		loading = true;
+		router.navigate("/anime/"+Number(text.split(":")[1]));
+		return;
+	}
+
 	if(text.length < 4) return;
 
 	loading = true;
