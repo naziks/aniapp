@@ -35,6 +35,10 @@ nav{
 		height: 40px;
 		margin: 10px 0;
 
+		&, & *{
+			border-radius: 0px;
+		}
+
 		.search-input{
 			display: inline-block;
 			width: 100%;
