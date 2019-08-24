@@ -1,0 +1,13 @@
+.icons{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &.size-20{
+        width: 20px!important;
+        height: 20px!important;
+    }
+}

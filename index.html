@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>AnimeVost (by Naziks)</title>
+
+	<link rel="manifest" href="./manifest.json">
+	<link rel="stylesheet" href="assets/css/plyr.css">
+	<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+	<nav>
+		<div class="container">
+			<div class="title" onclick="router.navigate('/news');">Anime App</div>
+			<div class="title-sm" onclick="router.navigate('/news');">AniApp</div>
+			<div class="search">
+				<div class="search-input">
+					<input type="search" id="search_text" placeholder="Search..">
+				</div>
+				<div class="search-button">
+					<i class="icons icon@search size-20"></i>
+				</div>
+			</div>
+			<div class="search-sm">
+				<div class="search-input-sm" style="display: none;">
+					<input type="text" id="search_text_sm" placeholder="Search..">
+				</div>
+				<div class="search-button-sm" onclick="$('.search-input-sm').slideToggle()">
+					<i class="icons icon@search size-20"></i>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<div class="loader">
+		<div class="a-center">
+			<div class="spinner">
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<content id="app" style="display: none;">
+		</content>   
+	</div> 
+
+	<script data-prepros-origin-host="3.3.3.3" src="http://3.3.3.3:81/__prepros-server__/prepros.js"> </script>
+	<script src="./assets/js/jquery.min.js"></script>
+	<script src="./assets/js/plyr.min.js"></script>
+	<script src="./assets/js/icons.js"></script>
+	<script src="./assets/js/router.js"></script>
+	<script src="./assets/js/api.js"></script>
+	<script src="./assets/js/player.js"></script>
+	<script src="./assets/js/app.js"></script>
+</body>
+</html>

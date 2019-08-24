@@ -1,0 +1,103 @@
+article[type="search"]{
+    width: 100%;
+    transition: width .3s ease-in-out, height .3s ease-in-out;
+    font-size: 18px;
+    margin: 10px auto 0 auto;
+    border: 2px solid $main-c;
+    border-radius: 5px;
+    overflow:hidden;
+
+    .title{
+        font-family: Blinker, OpenSans, Arial;
+        font-weight: bolder;
+        text-align: center;
+        border-bottom: 2px solid $main-c;
+        cursor: pointer;
+    }
+
+    .tags{
+        ul{
+            display: inline-block;
+            list-style-type: none;
+            li{
+                display: inline;
+                border:1px solid $main-c;
+                background-color: $main-c;
+                border-radius: 10px;
+                color:$nav-fc;
+                font-size: 16px;
+                padding: 1px 2px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    img{
+        float:left;
+        margin-right: 10px;
+        height: 300px;
+    }
+
+    @media (orientation: portrait){
+        &:first-child{
+            margin-top: 20px!important;
+        }
+    }    
+}
+
+
+@media screen and (max-width: 800px){
+    article[type="search"]{
+        width: calc(100vw - 80px);
+
+
+        .title{
+            font-size: 18px;
+        }
+
+        img{
+            width: 100%;
+            height: auto!important;
+        }
+
+        .text > p{
+            display: none;
+        }
+
+        .text .tags{
+            background-color: $main-c;
+            strong{
+                display: none;
+            }
+
+            ul{
+                padding:0 5px;
+                text-align: center;
+
+                li{
+                    display: inline;
+                    border:none;
+                    background: transparent;
+                    padding:0;
+                    text-align: justify;
+
+                    &:not(:last-child):after{
+                        content: ', ';
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// @media screen and (max-width: 600px){
+//     article[type="search"]{
+//         $height:250px;
+//         height: $height;
+
+//         .poster{
+//             height: $height;
+//         }
+//     }
+// }
