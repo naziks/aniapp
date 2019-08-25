@@ -2,7 +2,7 @@ let router = new Navigo(null, true, "#!");
 let loading = false;
 let loading_timeout = false;
 let is_search = false;
-
+let modal_box = ()=>{}
 const search_commands = {
 	id: function(id){
 		if(Number(id[0]) > 0){
@@ -52,8 +52,13 @@ router
 
 			$("#app")[0].innerHTML = r;
 		}else{
-			console.log('Error:');
-			console.error(r);
+			console.log('Something went wrong!');
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
 })
@@ -84,8 +89,12 @@ router
 
 			$("#app")[0].innerHTML = r;
 		}else{
-			console.log('Error:');
-			console.error(r);
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
 })
@@ -104,7 +113,12 @@ router
 			$("#app")[0].innerHTML = article.data;
 			article.cb(r);
 		}else{
-			alert("Error: " + r.error.text);
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
 	console.log('anime: '+params.id)
@@ -124,10 +138,15 @@ router
 			$("#app")[0].innerHTML = article.data;
 			article.cb(r);
 		}else{
-			alert("Error: " + r.error.text);
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
-	console.log('anime: '+params.id)
+	console.log('player: '+params.id)
 })
 .on('/search/:text', function (params) {
 	is_search = true;
@@ -164,8 +183,12 @@ router
 
 			$("#app")[0].innerHTML = result;
 		}else{
-			console.log('Error:');
-			console.error(r);
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
 })
@@ -201,8 +224,12 @@ router
 
 			$("#app")[0].innerHTML = result;
 		}else{
-			console.log('Error:');
-			console.error(r);
+			modal_box({
+				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				can_close:false
+			}, {
+				reload:true
+			})
 		}
 	}, false)
 })
@@ -211,7 +238,12 @@ router
 	loading = false;
 	$(".search-sm .search-button-sm").fadeIn();
 	$('.search-input-sm').slideUp();
-	console.log(404)
+	modal_box({
+		body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+		can_close:false
+	}, {
+		home:true
+	})
 })
 
 $(document).ready(function() {
@@ -268,7 +300,14 @@ let loading_interval = setInterval(function(){
 	if(loading){
 		if(loading_timeout == false){
 			loading_timeout = setTimeout(function(){
-				console.log("Failed to load");
+				
+				modal_box({
+					body: "Cannot Load this page<br>(Timeout Error)",
+					can_close:false
+				}, {
+					reload:true
+				})
+
 				clearInterval(loading_interval);
 				clearTimeout(loading_timeout)
 				loading_timeout = false
@@ -287,4 +326,67 @@ let loading_interval = setInterval(function(){
 			});
 		}
 	}
+}, 500);
+
+let isOnline = setInterval(function(){
+	if(!navigator.onLine){
+		clearInterval(loading_interval);
+		clearInterval(isOnline);
+		loading = false;
+		
+		modal_box({
+			body: "No Internet Connection",
+			can_close:false
+		}, {
+			reload:true
+		})
+	}
 }, 500)
+
+modal_box = (text = {}, buttons = {}) => {
+	if($("#popup").is(":visible")) return false;
+	let _buttons = {
+		reload: false,
+		home: false
+	}
+
+	let _text = {
+		header: "Ooops..",
+		body: "Some error during load this page, please reload page and try again.",
+		can_close: true
+	}
+
+	Object.keys(_buttons).forEach(function(e){
+		if(!buttons.hasOwnProperty(e)){
+			buttons[e] = _buttons[e];
+		}
+	});
+
+	Object.keys(_text).forEach(function(e){
+		if(!text.hasOwnProperty(e)){
+			text[e] = _text[e];
+		}
+	});
+
+	$("#popup .header").html(text.header);
+	$("#popup .body").html(text.body);
+
+	if(text.can_close){
+		$("#popup .cover, #popup .close-button").attr("onclick", "$('#popup').fadeOut()");
+		$("#popup .close-button").show();
+	}else{
+		$("#popup .cover, #popup .close-button").removeAttr("onclick");
+		$("#popup .close-button").hide();
+	}
+
+	Object.keys(buttons).forEach(function(e){
+		let el = $('#popup .buttons .'+e);
+		if(buttons[e]){
+			el.show();
+		}else{
+			el.hide();
+		}
+	});
+
+	$("#popup").fadeIn();
+}

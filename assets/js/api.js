@@ -1,4 +1,10 @@
 const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
+
+	if(!navigator.onLine){
+		console.log("No Internet Connection..");
+		return;
+	}
+
 	let build_params = (a = {}) => {
 		r = "";
 		if(Object.keys(a).length == 0) return;
@@ -18,16 +24,22 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	$.ajax(url)
 	.done(function(r){
 		loading = false;
-		if(typeof(r) != "object") r = JSON.parse(r);
-		console.log(r)
+		if(typeof(r) != "object")
+			r = JSON.parse(r);
+
 		if(typeof(params) == "function"){
 			params(r);
 		}else{
 			callback(r);
 		}
 	})
-	.fail(function(){
-		console.log('API: Failed To Load')
+	.fail(function(a){
+		modal_box({
+			body: "Server Error<br>",
+			can_close:false
+		}, {
+			reload:true
+		})
 	});
 	return;
 }

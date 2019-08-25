@@ -83,3 +83,103 @@ footer{
         font-family: Blinker;
     }
 }
+
+#popup{
+    .cover{
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 200000;
+        background-color: rgba(0,0,0,.5);
+    }
+
+    .content{
+        display: block;
+        position: fixed;
+
+        height: 300px;
+        width: 500px;
+
+        background-color: $main-c;
+        box-shadow: 0px 0px 20px 0px #000;
+        z-index: 210000;
+
+        top: calc((100vh - 300px) / 2);
+        left: calc((100vw - 500px) / 2);
+
+        @media (max-width: 520px){
+            width: calc(100vw - 20px);
+            left: 10px;
+        }
+
+        @media (max-height: 320px){
+            height: calc(100vh - 20px);
+            top: 10px;
+        }
+
+        .close-button{
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right: 5px;
+            font-size: 30px;
+            line-height: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .header{
+            display: block;
+            line-height: 30px;
+            font-size: 21px;
+            text-align: center;
+            color: #fff;
+            overflow-x: hidden;
+            box-shadow: 0px 1px 14px 0px #493c93;
+            margin-bottom: 10px;
+        }
+
+        .body{
+            color: #f1f1f1;
+            padding: 10px 5px 0 5px;
+            text-align: center;
+            height: calc(100% - 92px);
+        }
+
+        .buttons{
+
+            display: block;
+            position: absolute;
+            bottom:0;
+            padding: 15px 20px;
+            width: 100%;
+            cursor: pointer;
+
+            & > div{
+                display: inline;
+                border: 1px solid #fff;
+                padding: 4px 6px;
+                color: #1c1c1c;
+                background-color: #fff;
+                border-radius: 4px;
+                transition: opacity .3s ease-in-out;
+                opacity: 1;
+                float: right;
+            }
+
+            & > div:hover{
+                opacity: .65;
+            }
+
+            .reload{
+                border: 1px solid indianred;
+                background-color: indianred;
+                color: #fff;
+            }
+
+        }
+    }
+}

@@ -69,8 +69,23 @@
 		</div>
 	</footer>
 
+	<div id="popup" style="display: none;">
+		<div class="cover" onclick="$('#popup').fadeOut();"></div>
+		<div class="content">
+			<div class="close-button" onclick="$('#popup').fadeOut();">&times;</div>
+			<div class="header">
+			</div>
+			<div class="body">
+				
+			</div>
+			<div class="buttons">
+				<div class="reload" onclick="location.reload();">Reload</div>
+				<div class="home" onclick="router.navigate('/news')">Go Home</div>
+			</div>
+		</div>
+	</div>
+	
 	<script data-prepros-origin-host="localhost" src="http://localhost:81/__prepros-server__/prepros.js"> </script>
-
 	<script src="./assets/js/jquery.min.js"></script>
 	<script src="./assets/js/plyr.min.js"></script>
 	<script src="./assets/js/icons.js"></script>
