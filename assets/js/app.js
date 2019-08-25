@@ -3,6 +3,29 @@ let loading = false;
 let loading_timeout = false;
 let is_search = false;
 
+const search_commands = {
+	id: function(id){
+		if(Number(id[0]) > 0){
+			loading = true;
+			router.navigate("/anime/"+Number(id[0]));
+			return false;
+		}
+
+		return true;
+	},
+
+	pid: function(id){
+		if(Number(id[0]) > 0){
+			loading = true;
+			router.navigate("/player/"+Number(id[0]));
+			return false;
+		}
+
+		return true;
+	}
+}
+
+
 router
 .on('/news', function () {
 	is_search = false;
@@ -88,7 +111,23 @@ router
 })
 .on('/player/:id', function (params) {
 	is_search = false;
-	console.log('player: '+params.id)
+	$("#search_text").val('pid:'+params.id);
+	$("#search_text_sm").val('pid:'+params.id);
+	$(".search-sm .search-button-sm").fadeIn();
+	$('body').removeAttr('style');
+	document.title = "Loading... - AnimeVost (by Naziks)";
+	api('anime.info', {id: params.id}, function(r){
+		if(r.ok){
+			r = r.result.data;
+			document.title = "Player - AnimeVost (by Naziks)";
+			let article = create_player_article(r)
+			$("#app")[0].innerHTML = article.data;
+			article.cb(r);
+		}else{
+			alert("Error: " + r.error.text);
+		}
+	}, false)
+	console.log('anime: '+params.id)
 })
 .on('/search/:text', function (params) {
 	is_search = true;
@@ -185,10 +224,16 @@ $(document).ready(function() {
 const do_search = (text = "") => {
 	text = String(text).trim();
 
-	if(text.split(":")[0] == "id" && text.split(":")[0].length > 0 && Number(text.split(":")[1]) > 0){
-		loading = true;
-		router.navigate("/anime/"+Number(text.split(":")[1]));
-		return;
+	if(Object.keys(search_commands).includes(text.trim().split(":")[0]) && text.split(":")[0].length > 0){
+		let a = text.trim().split(":").filter(function(a,i){
+			return i != 0;
+		});
+
+		let r = search_commands[text.trim().split(":")[0]](a);
+
+		if(r == false){
+			return;
+		}
 	}
 
 	if(text.length < 4) return;

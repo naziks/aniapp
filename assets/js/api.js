@@ -135,6 +135,29 @@ const create_full_article = (options = {id:null, title:null, urlImagePreview:nul
 	}
 }
 
+const create_player_article = (options = {id:null, title:null, urlImagePreview:null, type:null, duration:"?", tags:null, description:null}) => {
+	options.series_list = options.series.map(function(a){
+		return "<option value=\""+a.id+"\">"+a.title+"</option>"
+	}).join("\n");
+
+	let r = ''
+	+'<article type="player" xmlns="http://www.w3.org/1999/xhtml">'
+	+	'<div class="player player-fullscreen">'
+	+		'<select onchange="set_seria(this.value, this.innerHTML)">'
+	+			'%PLAYER%'
+	+		'</select>'
+	+		'<video poster="./assets/img/placeholder.png" class="vidplayer" crossOrigin="anonymous" crossorigin="anonymous" controls />'
+	+	'</div>'
+	+'</article>';
+	return {
+		data:r.replace('%PLAYER%', options.series_list),
+		cb: function(options){
+			init_player();
+			set_seria(options.series[0].id, options.series[0].title)
+		}
+	}
+}
+
 const create_pagination = (path = "/news/page/", current_page = 1, pages = 1) => {
 	let btn1 = 'onclick="router.navigate(\''+path + (current_page - 1)+'\')"';
 	if(current_page - 1 < 1){
