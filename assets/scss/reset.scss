@@ -8,7 +8,7 @@
 }
 
 body{
-    padding-top: 60px;
+    padding: 60px 0 50px 0;
 }
 
 .container{
@@ -17,6 +17,11 @@ body{
     height: auto;
     margin: 0 auto;
     box-sizing: border-box;
+}
+
+.scroll-bar{
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
 }
 
 @media screen and (max-width: 820px) {

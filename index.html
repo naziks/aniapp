@@ -56,11 +56,21 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="scroll-bar">
+		<div class="container">
+			<content id="app" style="display: none;">
+			</content>   
+		</div> 
+	</div>
 
-	<div class="container">
-		<content id="app" style="display: none;">
-		</content>   
-	</div> 
+	<footer>
+		<div class="container">
+			<span>Copyright &copy; <span id="footer_year"></span>,&nbsp;&nbsp;AniApp</span>
+		</div>
+	</footer>
+
+	<script data-prepros-origin-host="localhost" src="http://localhost:81/__prepros-server__/prepros.js"> </script>
 
 	<script src="./assets/js/jquery.min.js"></script>
 	<script src="./assets/js/plyr.min.js"></script>
@@ -69,5 +79,8 @@
 	<script src="./assets/js/api.js"></script>
 	<script src="./assets/js/player.js"></script>
 	<script src="./assets/js/app.js"></script>
+	<script>
+		$("#footer_year").text((new Date()).getFullYear())
+	</script>
 </body>
 </html>
