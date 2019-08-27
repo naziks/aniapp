@@ -1,13 +1,13 @@
 const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 
-	if(!navigator.onLine){
-		console.log("No Internet Connection..");
-		return;
-	}
+	// if(!navigator.onLine){
+	// 	console.log("No Internet Connection..");
+	// 	return;
+	// }
 
 	let build_params = (a = {}) => {
 		r = "";
-		if(Object.keys(a).length == 0) return;
+		if(Object.keys(a).length == 0) return "";
 		$(Object.keys(a)).each(function(i, k) {
 			r += k + "=" + encodeURIComponent(a[k]) + "&";
 		});
@@ -17,9 +17,9 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	}
 	if(!quiet)
 		loading = true;
-	// let url = 'http://3.3.3.3/animevost.app/api/'
-	url = 'https://naziksbots.000webhostapp.com/animevost/api/'
-	url = url +method+'?'+build_params(params)
+	let url = 'http://3.3.3.3/animevost.app/api/'
+	// let url = 'https://naziksbots.000webhostapp.com/animevost/api/'
+	url = url + method+'?'+build_params(params)
 
 	$.ajax(url)
 	.done(function(r){
@@ -35,7 +35,7 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	})
 	.fail(function(a){
 		modal_box({
-			body: "Server Error<br>",
+			body: "API Error<br><br><b>Requested Method:&nbsp;</b>" + method+'<br><br><b style="text-align:left;">Resuested Params:&nbsp;</b><br><pre class="api-error">'+JSON.stringify(params,null,4)+'</pre>',
 			can_close:false
 		}, {
 			reload:true

@@ -168,6 +168,7 @@ footer{
                 transition: opacity .3s ease-in-out;
                 opacity: 1;
                 float: right;
+                margin-left: 10px;
             }
 
             & > div:hover{
@@ -182,4 +183,9 @@ footer{
 
         }
     }
+}
+
+.api-error{
+    padding:0 35px;
+    text-align: left;
 }

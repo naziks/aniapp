@@ -80,11 +80,13 @@
 			</div>
 			<div class="buttons">
 				<div class="reload" onclick="location.reload();">Reload</div>
-				<div class="home" onclick="router.navigate('/news')">Go Home</div>
+				<div class="back" onclick="$('#popup').fadeOut(function(){window.history.back()})">Go Back</div>
+				<div class="home" onclick="$('#popup').fadeOut(function(){router.navigate('/news')});">Home</div>
 			</div>
 		</div>
 	</div>
 	
+	<script data-prepros-origin-host="3.3.3.3" src="http://3.3.3.3:81/__prepros-server__/prepros.js"> </script>
 	<script src="./assets/js/jquery.min.js"></script>
 	<script src="./assets/js/plyr.min.js"></script>
 	<script src="./assets/js/icons.js"></script>

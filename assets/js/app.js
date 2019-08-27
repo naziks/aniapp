@@ -31,6 +31,8 @@ router
 	is_search = false;
 	$(".search-sm .search-button-sm").fadeIn();
 	$('body').removeAttr('style');
+	$("#search_box").val("");
+	$("#search_box_sm").val("");
 	document.title = "News - AnimeVost (by Naziks)";
 	api('anime.news', {}, function(r){
 		if(r.ok){
@@ -54,7 +56,7 @@ router
 		}else{
 			console.log('Something went wrong!');
 			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
 				can_close:false
 			}, {
 				reload:true
@@ -67,6 +69,19 @@ router
 	$(".search-sm .search-button-sm").fadeIn();
 	$('body').removeAttr('style');
 	document.title = "News - AnimeVost (by Naziks)";
+
+	if(isNaN(Number(params.page)) || Number(params.page) <= 0){
+		modal_box({
+			body: "Cannot Load this page..<br>Incorrect Page Number",
+			can_close:false
+		}, {
+			// reload:true,
+			home: true,
+			back:true
+		})
+		return;
+	}
+
 	api('anime.news', {
 		page: params.page
 	}, function(r){
@@ -90,7 +105,7 @@ router
 			$("#app")[0].innerHTML = r;
 		}else{
 			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
 				can_close:false
 			}, {
 				reload:true
@@ -100,31 +115,63 @@ router
 })
 .on('/anime/:id', function (params) {
 	is_search = false;
+
+	if(isNaN(Number(params.id)) || Number(params.id) <= 0){
+		$("#search_text").val("");
+		$("#search_text_sm").val("");
+		modal_box({
+			body: "Cannot Load this page..<br>Incorrect Anime Id",
+			can_close:false
+		}, {
+			// reload:true,
+			home: true,
+			back:true
+		})
+		return;
+	}
+
 	$("#search_text").val('id:'+params.id);
 	$("#search_text_sm").val('id:'+params.id);
 	$(".search-sm .search-button-sm").fadeIn();
 	$('body').removeAttr('style');
 	document.title = "Loading... - AnimeVost (by Naziks)";
 	api('anime.info', {id: params.id}, function(r){
-		if(r.ok){
-			r = r.result.data;
-			document.title = r.title + " - AnimeVost (by Naziks)";
-			let article = create_full_article(r)
-			$("#app")[0].innerHTML = article.data;
-			article.cb(r);
-		}else{
-			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
-				can_close:false
-			}, {
-				reload:true
-			})
-		}
+			if(r.ok){
+				r = r.result.data;
+				document.title = r.title + " - AnimeVost (by Naziks)";
+				let article = create_full_article(r)
+				$("#app")[0].innerHTML = article.data;
+				article.cb(r);
+				$("#app").fadeIn();
+			}else{
+				modal_box({
+					body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
+					can_close:false
+				}, {
+					reload:true,
+					home: true
+				})
+			}
 	}, false)
 	console.log('anime: '+params.id)
 })
 .on('/player/:id', function (params) {
 	is_search = false;
+
+	if(isNaN(Number(params.id)) || Number(params.id) <= 0){
+		$("#search_text").val("");
+		$("#search_text_sm").val("");
+		modal_box({
+			body: "Cannot Load this page..<br>Incorrect Player Id",
+			can_close:false
+		}, {
+			// reload:true,
+			home: true,
+			back:true
+		})
+		return;
+	}
+
 	$("#search_text").val('pid:'+params.id);
 	$("#search_text_sm").val('pid:'+params.id);
 	$(".search-sm .search-button-sm").fadeIn();
@@ -139,7 +186,7 @@ router
 			article.cb(r);
 		}else{
 			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
 				can_close:false
 			}, {
 				reload:true
@@ -184,7 +231,7 @@ router
 			$("#app")[0].innerHTML = result;
 		}else{
 			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
 				can_close:false
 			}, {
 				reload:true
@@ -194,6 +241,19 @@ router
 })
 .on('/search/:text/page/:page', function (params) {
 	is_search = true;
+
+	if(isNaN(Number(params.page)) || Number(params.page) <= 0){
+		modal_box({
+			body: "Cannot Load this page..<br>Incorrect Page Number",
+			can_close:false
+		}, {
+			// reload:true,
+			home: true,
+			back:true
+		})
+		return;
+	}
+
 	console.log('Search: '+params.text);
 	document.title = params.text + " - AnimeVost (by Naziks)"
 	$("#search_text").val(params.text);
@@ -225,7 +285,7 @@ router
 			$("#app")[0].innerHTML = result;
 		}else{
 			modal_box({
-				body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
 				can_close:false
 			}, {
 				reload:true
@@ -239,17 +299,18 @@ router
 	$(".search-sm .search-button-sm").fadeIn();
 	$('.search-input-sm').slideUp();
 	modal_box({
-		body: "Cannot Load this page..<br>API response:<br><pre style=\"text-align:center\">"+JSON.stringify(r, null, 2)+"</pre>",
-		can_close:false
+		body: "This Page is not found on this server!",
+		can_close:true
 	}, {
-		home:true
+		home:true,
+		reload: true
 	})
 })
 
-$(document).ready(function() {
-	router.resolve();
+$(window).on('load', function(){
 	if(window.location.hash.replace("#").replace("!").length == 0)
 		router.navigate('/news');
+	router.resolve();
 	$('.loader').fadeOut();
 });
 
@@ -311,12 +372,11 @@ let loading_interval = setInterval(function(){
 				clearInterval(loading_interval);
 				clearTimeout(loading_timeout)
 				loading_timeout = false
-			}, 20000)
+			}, 13000)
 		}
 
 		$(".loader").show();
-		$("#app").fadeOut(function(){
-		});
+		$("#app").fadeOut();
 	}else{
 		if(loading_timeout != false){
 			clearTimeout(loading_timeout)
@@ -328,20 +388,20 @@ let loading_interval = setInterval(function(){
 	}
 }, 500);
 
-let isOnline = setInterval(function(){
-	if(!navigator.onLine){
-		clearInterval(loading_interval);
-		clearInterval(isOnline);
-		loading = false;
-		
-		modal_box({
-			body: "No Internet Connection",
-			can_close:false
-		}, {
-			reload:true
-		})
-	}
-}, 500)
+// let isOnline = setInterval(function(){
+// 	if(!navigator.onLine){
+// 		clearInterval(loading_interval);
+// 		clearInterval(isOnline);
+// 		loading = false;
+
+// 		modal_box({
+// 			body: "No Internet Connection",
+// 			can_close:false
+// 		}, {
+// 			reload:true
+// 		})
+// 	}
+// }, 500)
 
 modal_box = (text = {}, buttons = {}) => {
 	if($("#popup").is(":visible")) return false;
