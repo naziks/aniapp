@@ -95,7 +95,8 @@ const create_full_article = (options = {id:null, title:null, urlImagePreview:nul
         .replace('%PLAYER%', options.series_list),
         cb: function(options){
             init_player(options.series);
-            $('select').niceSelect();
+            if(!mobileAndTabletcheck())
+                $('select').niceSelect();
         }
     }
 }
@@ -117,8 +118,9 @@ const create_player_article = (options = {id:null, title:null, urlImagePreview:n
     return {
         data:r.replace('%PLAYER%', options.series_list),
         cb: function(options){
-            init_player(options.screenImage);
-            set_seria(options.series[0].id, options.series[0].title)
+            init_player(options.series);
+            if(!mobileAndTabletcheck())
+                $('select').niceSelect();
         }
     }
 }

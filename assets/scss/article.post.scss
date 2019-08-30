@@ -91,7 +91,7 @@ article[type="post"]{
             }
         }
 
-        .nice-select{
+        .nice-select, select{
             width: 100%;
             height: 30px;
             font-size: 16px;
@@ -172,11 +172,4 @@ article[type="post"]{
         }   
     }
 
-}
-
-
-article[type="player"]{
-    .plyr, .plyr__video-wrapper, .plyr__video-wrapper *{
-        border-radius: 0px;
-    }
 }
