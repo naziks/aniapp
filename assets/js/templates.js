@@ -5,7 +5,7 @@ const create_article_post = (options = {id:null, title:null, image:null, type:nu
     +   '<h1 onclick="router.navigate(\'/anime/'+options.id+'\')" class="title">'
     +       '<span>$ANIME_TITLE$</span>'
     +   '</h1>'
-    +   '<img src="$IMAGE$" alt="Poster" />'
+    +   '<img src="$IMAGE$" alt="Poster" onclick="router.navigate(\'/anime/'+options.id+'\')" />'
     +   '<main class="text">'
     +       '<p>'
     +           '<strong>Type:&nbsp;</strong>'
