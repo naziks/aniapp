@@ -3,6 +3,7 @@ let loading = false;
 let loading_timeout = false;
 let is_search = false;
 let modal_box = ()=>{}
+
 const search_commands = {
 	id: function(id){
 		if(Number(id[0]) > 0){
@@ -136,22 +137,23 @@ router
 	$('body').removeAttr('style');
 	document.title = "Loading... - AnimeVost (by Naziks)";
 	api('anime.info', {id: params.id}, function(r){
-			if(r.ok){
-				r = r.result.data;
-				document.title = r.title + " - AnimeVost (by Naziks)";
-				let article = create_full_article(r)
-				$("#app")[0].innerHTML = article.data;
-				article.cb(r);
-				$("#app").fadeIn();
-			}else{
-				modal_box({
-					body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
-					can_close:false
-				}, {
-					reload:true,
-					home: true
-				})
-			}
+		if(r.ok){
+			r = r.result.data;
+			document.title = r.title + " - AnimeVost (by Naziks)";
+			let article = create_full_article(r)
+			$("#app")[0].innerHTML = article.data;
+			memory.init(params.id);
+			article.cb(r);
+			$("#app").fadeIn();
+		}else{
+			modal_box({
+				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
+				can_close:false
+			}, {
+				reload:true,
+				home: true
+			})
+		}
 	}, false)
 	console.log('anime: '+params.id)
 })
@@ -183,6 +185,7 @@ router
 			document.title = "Player - AnimeVost (by Naziks)";
 			let article = create_player_article(r)
 			$("#app")[0].innerHTML = article.data;
+			memory.init(params.id);
 			article.cb(r);
 		}else{
 			modal_box({
@@ -372,7 +375,7 @@ let loading_interval = setInterval(function(){
 				clearInterval(loading_interval);
 				clearTimeout(loading_timeout)
 				loading_timeout = false
-			}, 13000)
+			}, 20000)
 		}
 
 		$(".loader").show();
@@ -450,3 +453,9 @@ modal_box = (text = {}, buttons = {}) => {
 
 	$("#popup").fadeIn();
 }
+
+
+// Disable Safari Scale
+// document.addEventListener('touchmove', function (event) {
+// 	if (event.scale !== 1) { event.preventDefault(); }
+// }, { passive: false });
