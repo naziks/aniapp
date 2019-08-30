@@ -130,7 +130,7 @@ article[type="post"]{
                     max-height: 400px;
                     border-radius: 5em;
                     box-sizing: border-box;
-                    
+
 
                     // background-color: transparent;
                     // border: 1px solid #fff;
@@ -140,7 +140,7 @@ article[type="post"]{
         }
 
         .plyr{
-            height: calc((100% * 9) / 16)!important;
+            // height: calc((100% * 9) / 16)!important;
 
             border-radius: 5px;
             border-top-left-radius: 0px;
@@ -174,3 +174,9 @@ article[type="post"]{
 
 }
 
+
+article[type="player"]{
+    .plyr, .plyr__video-wrapper, .plyr__video-wrapper *{
+        border-radius: 0px;
+    }
+}
