@@ -48,8 +48,8 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	}
 	if(!quiet)
 		loading(true);
-	let url = 'http://3.3.3.3/animevost.app/api/'
-	// let url = 'https://naziksbots.000webhostapp.com/animevost/api/'
+	// let url = 'http://3.3.3.3/animevost.app/api/'
+	let url = 'https://naziksbots.000webhostapp.com/animevost/api/'
 	url = url + method+'?'+build_params(params)
 
 	$.ajax(url)
