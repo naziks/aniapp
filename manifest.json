@@ -5,5 +5,5 @@
   "background_color": "#000000",
   "display": "standalone",
   "scope": "",
-  "start_url": "#!/news"
+  "start_url": "./#!/news"
 }
