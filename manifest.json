@@ -4,6 +4,6 @@
   "theme_color": "#0b0b0b",
   "background_color": "#000000",
   "display": "standalone",
-  "scope": ".",
-  "start_url": "./#!/news"
+  "scope": "",
+  "start_url": "#!/news"
 }

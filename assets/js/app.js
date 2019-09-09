@@ -1,8 +1,7 @@
 let router = new Navigo(null, true, "#!");
-let loading = false;
 let loading_timeout = false;
+let loading_interval;
 let is_search = false;
-let modal_box = ()=>{}
 
 const mobileAndTabletcheck = function() {
 	var check = false;
@@ -18,19 +17,20 @@ const page_type = (type) => {
 	}
 }
 
-window.screen.orientation.onchange = function(e){
-	if(mobileAndTabletcheck() && window.screen.orientation.type.includes('landscape')){
+window.addEventListener('orientationchange', function(e){
+	let o = Math.abs(window.orientation) == 90 ? "landscape" : "portrait";
+	if(mobileAndTabletcheck() && o == 'landscape'){
 		$('footer').fadeOut();
 	}else{
 		$('footer').fadeIn();
 	}
-}
+})
 
 
 const search_commands = {
 	id: function(id){
 		if(Number(id[0]) > 0){
-			loading = true;
+			loading(true);
 			router.navigate("/anime/"+Number(id[0]));
 			return false;
 		}
@@ -40,7 +40,7 @@ const search_commands = {
 
 	pid: function(id){
 		if(Number(id[0]) > 0){
-			loading = true;
+			loading(true);
 			router.navigate("/player/"+Number(id[0]));
 			return false;
 		}
@@ -78,6 +78,8 @@ router
 			r += create_pagination("/news/page/", 1, 200)
 
 			$("#app")[0].innerHTML = r;
+
+			loading(false);
 		}else{
 			console.log('Something went wrong!');
 			modal_box({
@@ -171,7 +173,7 @@ router
 			$("#app")[0].innerHTML = article.data;
 			memory.init(params.id);
 			article.cb(r);
-			$("#app").fadeIn();
+			loading(false);
 		}else{
 			modal_box({
 				body: "Cannot Load this page.. <br><b style=\"text-align: left; width: 100%; display: inline-block; padding: 0 30px;\">API response:</b><br><pre class=\"api-error\">"+JSON.stringify(r, null, 4)+"</pre>",
@@ -330,7 +332,7 @@ router
 })
 .notFound(function(){
 	is_search = false;
-	loading = false;
+	loading(false);
 
 	page_type("404");
 
@@ -344,13 +346,6 @@ router
 		reload: true
 	})
 })
-
-$(window).on('load', function(){
-	if(window.location.hash.replace("#").replace("!").length == 0)
-		router.navigate('/news');
-	router.resolve();
-	$('.loader').fadeOut();
-});
 
 const do_search = (text = "") => {
 	text = String(text).trim();
@@ -369,7 +364,7 @@ const do_search = (text = "") => {
 
 	if(text.length < 4) return;
 
-	loading = true;
+	loading(true);
 
 	router.navigate("/search/"+text);
 }
@@ -395,51 +390,6 @@ $(".search-button").on("click", function() {
 	do_search($("#search_text").val())
 })
 
-let loading_interval = setInterval(function(){
-	if(loading){
-		if(loading_timeout == false){
-			loading_timeout = setTimeout(function(){
-				
-				modal_box({
-					body: "Cannot Load this page<br>(Timeout Error)",
-					can_close:false
-				}, {
-					reload:true
-				})
-
-				clearInterval(loading_interval);
-				clearTimeout(loading_timeout)
-				loading_timeout = false
-			}, 20000)
-		}
-
-		$(".loader").show();
-		$("#app").fadeOut();
-	}else{
-		if(loading_timeout != false){
-			clearTimeout(loading_timeout)
-			loading_timeout = false;
-			$(".loader").fadeOut(function(){
-				$("#app").fadeIn();
-			});
-		}
-	}
-}, 500);
-
-// let isOnline = setInterval(function(){
-// 	if(!navigator.onLine){
-// 		clearInterval(loading_interval);
-// 		clearInterval(isOnline);
-// 		loading = false;
-
-// 		modal_box({
-// 			body: "No Internet Connection",
-// 			can_close:false
-// 		}, {
-// 			reload:true
-// 		})
-// 	}
-// }, 500)
 
 modal_box = (text = {}, buttons = {}) => {
 	if($("#popup").is(":visible")) return false;
@@ -489,8 +439,9 @@ modal_box = (text = {}, buttons = {}) => {
 	$("#popup").fadeIn();
 }
 
-
-// Disable Safari Scale
-// document.addEventListener('touchmove', function (event) {
-// 	if (event.scale !== 1) { event.preventDefault(); }
-// }, { passive: false });
+$(window).on('load', function(){
+	loading();
+	if(window.location.hash.replace("#").replace("!").length == 0)
+		router.navigate('/news');
+	router.resolve();
+});
