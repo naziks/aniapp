@@ -80,6 +80,8 @@ const init_player = (series) => {
 
 }
 
+const cors_url = "https://nazarko-bots.tk/public/video_cors.php?url=";
+
 set_seria = (id, title) => {
 	memory.disable_time_saving = true;
 	Player.currentTime = 0;
@@ -106,12 +108,12 @@ set_seria = (id, title) => {
 				title: title,
 				sources: [
 				{
-					src: v.result.files['720p'][0],
+					src: cors_url+encodeURIComponent(v.result.files['720p'][0]),
 					type: 'video/mp4',
 					size: 720,
 				},
 				{
-					src: v.result.files['480p'][0],
+					src: cors_url+encodeURIComponent(v.result.files['480p'][0]),
 					type: 'video/mp4',
 					size: 480,
 				},
