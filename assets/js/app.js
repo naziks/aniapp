@@ -229,6 +229,35 @@ router
 	}, false)
 	console.log('player: '+params.id)
 })
+.on('/player/u/:url', function (params) {
+	is_search = false;
+
+	if(params.url.trim().length == 0){
+		$("#search_text").val("");
+		$("#search_text_sm").val("");
+		modal_box({
+			body: "Cannot Load this url..",
+			can_close:true
+		}, {
+			// reload:true,
+			home: true,
+			back:true
+		})
+		return;
+	}
+
+	page_type("player");
+
+	$("#search_text").val('');
+	$("#search_text_sm").val('');
+	$(".search-sm .search-button-sm").fadeIn();
+	$('body').removeAttr('style');
+	document.title = "Player - AnimeVost (by Naziks)";
+	let article = create_player_article(params.url)
+	$("#app")[0].innerHTML = article.data;
+	article.cb(r);
+	console.log('player: '+params.url)
+})
 .on('/search/:text', function (params) {
 	is_search = true;
 	console.log('Search: '+params.text);
