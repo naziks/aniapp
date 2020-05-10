@@ -80,7 +80,7 @@ const init_player = (series) => {
 
 }
 
-const cors_url = "https://nazarko-bots.tk/public/video_cors.php?url=";
+const cors_url = "https://apps.nazarko.tk/api/video_cors.php?url=";
 
 set_seria = (id, title) => {
 	memory.disable_time_saving = true;
