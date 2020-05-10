@@ -11,7 +11,7 @@ const loading = function(is_loading = true){
 					reload:true
 				});
 				loading_timeout = -1;
-			}, 20000);
+			}, 8000);
 		}else if(loading_timeout == -1){
 			return;
 		}else{
