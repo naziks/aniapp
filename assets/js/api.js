@@ -36,7 +36,7 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	// 	return;
 	// }
 
-	let build_query = (p = {}) => Object.keys(p).map(e => e+"="+encodeURIComponent(p[e])).join("&");
+	let build_params = (p = {}) => Object.keys(p).map(e => e+"="+encodeURIComponent(p[e])).join("&");
 
 	if(!quiet)
 		loading(true);
