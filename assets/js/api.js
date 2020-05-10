@@ -79,5 +79,5 @@ const trim_text = (text, length = 300) => {
 }
 
 const cors_image = (url = "") => {
-	return "https://naziksbots.000webhostapp.com/animevost/api/utils.loadImage?url="+encodeURIComponent(url);
+	return "https://apps.nazarko.tk/aniapp/api/utils.loadImage?url="+encodeURIComponent(url);
 }
