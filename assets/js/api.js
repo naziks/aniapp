@@ -36,16 +36,8 @@ const api = (method = false, params = {}, callback = (r)=>{}, quiet=true) => {
 	// 	return;
 	// }
 
-	let build_params = (a = {}) => {
-		r = "";
-		if(Object.keys(a).length == 0) return "";
-		$(Object.keys(a)).each(function(i, k) {
-			r += k + "=" + encodeURIComponent(a[k]) + "&";
-		});
-		if(r.length > 0)
-			r.substr(0, r.length - 1);
-		return r;
-	}
+	let build_query = (p = {}) => Object.keys(p).map(e => e+"="+encodeURIComponent(p[e])).join("&");
+
 	if(!quiet)
 		loading(true);
 	// let url = 'http://3.3.3.3/animevost.app/api/'
